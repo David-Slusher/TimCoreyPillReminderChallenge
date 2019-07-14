@@ -37,23 +37,18 @@ namespace PillReminderUI
         public void RefreshClicked(object source, EventArgs e)
         {
             refreshPillsToTake = (Button)source;
-            //iterate through list of medications
-            //for seems to be faster than foreach from http://codebetter.com/patricksmacchia/2008/11/19/an-easy-and-efficient-way-to-improve-net-code-performances/
-            for (int i = 0; i < medications.Count; i++)
+
+            //Using LINQ get all instances where you need to take a pill
+            //Take a pill if timeToTake is or before the current time, the lastTaken time is or before the timeToTake, and the pill isnt already in the listbox
+            IEnumerable<PillModel> getMeds = medications.Where(med => DateTime.Compare(med.TimeToTake, DateTime.Now) <= 0 && (DateTime.Compare(med.LastTaken, med.TimeToTake) <= 0)
+                    && !(pillsToTakeListBox.Items.Contains(med.PillInfo)));
+            //go through adding the pills to the listbox
+            foreach (PillModel pill in getMeds)
             {
-            
-                //compare the timeToTake to the current time 
-                //compare the timeToTake to LastTaken
-                //make sure no duplicates
-                //IFF the timeToTake is or earlier than the current time AND the pill's LastTaken is before or equal the timeToTake, add pill to pillsToTake
-                if (DateTime.Compare(medications[i].TimeToTake, DateTime.Now) <= 0 && (DateTime.Compare(medications[i].LastTaken, medications[i].TimeToTake) <= 0)
-                    && !(pillsToTakeListBox.Items.Contains(medications[i].PillInfo)))
-                {
-                    //display medication at i position in pillsToTakeListBox
-                    pillsToTakeListBox.Items.Add(medications[i].PillInfo);
-                }
-                
+                pillsToTakeListBox.Items.Add(pill.PillInfo);
             }
+
+            
         }
 
         /*
@@ -61,17 +56,14 @@ namespace PillReminderUI
          */
          public void RefreshEvery5(object sender, EventArgs e)
         {
-            
-            for (int i = 0; i < medications.Count; i++)
+            //event is raised every five seconds and is the same as if clicked refresh button
+            IEnumerable<PillModel> getMeds = medications.Where(med => DateTime.Compare(med.TimeToTake, DateTime.Now) <= 0 && (DateTime.Compare(med.LastTaken, med.TimeToTake) <= 0)
+                    && !(pillsToTakeListBox.Items.Contains(med.PillInfo)));
+            foreach (PillModel pill in getMeds)
             {
-                if (DateTime.Compare(medications[i].TimeToTake, DateTime.Now) <= 0 && (DateTime.Compare(medications[i].LastTaken, medications[i].TimeToTake) <= 0)
-                    && !(pillsToTakeListBox.Items.Contains(medications[i].PillInfo)))
-                {
-                    //display medication at i position in pillsToTakeListBox
-                    pillsToTakeListBox.Items.Add(medications[i].PillInfo);
-                }
-
+                pillsToTakeListBox.Items.Add(pill.PillInfo);
             }
+            
         }
 
         //on click of take pill, remove from listbox and update time last taken so it doesnt appear in subsequent refreshes
@@ -80,19 +72,12 @@ namespace PillReminderUI
             takePill = (Button)source;
 
             //get selected item as a string
-            string takenPill = pillsToTakeListBox.SelectedItem.ToString();
-            //iterate trhough medication list until finding the entry where pillInfo matches the selected pill
-            //NOTE: this should have only ever have one match since even if you took the same pill twice in one day
-            //(eg - one in morning one at night) the pillinfo will still be unique based on time
-            for(int j = 0; j < medications.Count; j++)
-            {
-              if (medications[j].PillInfo == takenPill)
-                {
-                    //set the LastTaken time to the time when TakePill is clicked
-                    medications[j].LastTaken = DateTime.Now;  
-                }
-            }
-            //after updating the LastTaken of the pill, remove it from ListBox
+            string pillString = pillsToTakeListBox.SelectedItem.ToString();
+            //Using LINQ find the single instance of the selected pill in the list of medications
+            PillModel takenPill = medications.Single(pillToTake => pillToTake.PillInfo == pillString);
+            //update the LastTaken to the current time
+            takenPill.LastTaken = DateTime.Now;
+            //Remove from pills to take since no longer need to take said pill
             pillsToTakeListBox.Items.Remove(takenPill);
             
         }
