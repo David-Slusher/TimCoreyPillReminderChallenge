@@ -74,11 +74,11 @@ namespace PillReminderUI
             //get selected item as a string
             string pillString = pillsToTakeListBox.SelectedItem.ToString();
             //Using LINQ find the single instance of the selected pill in the list of medications
-            PillModel takenPill = medications.Single(pillToTake => pillToTake.PillInfo == pillString);
+            PillModel takenPill = medications.Single(med => med.PillInfo == pillString);
             //update the LastTaken to the current time
             takenPill.LastTaken = DateTime.Now;
             //Remove from pills to take since no longer need to take said pill
-            pillsToTakeListBox.Items.Remove(takenPill);
+            pillsToTakeListBox.Items.Remove(pillString);
             
         }
         //end my code
