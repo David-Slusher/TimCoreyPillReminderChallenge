@@ -1,4 +1,6 @@
-﻿namespace PillReminderUI
+﻿using System.Windows.Forms;
+
+namespace PillReminderUI
 {
     partial class ReminderWindow
     {
@@ -23,7 +25,7 @@
         #region Windows Form Designer generated code
 
         /// <summary>
-        /// Required method for Designer support - do not modify
+        /// Required method for Designer support - do not modify 
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
@@ -34,6 +36,9 @@
             this.allPillsLabel = new System.Windows.Forms.Label();
             this.refreshPillsToTake = new System.Windows.Forms.Button();
             this.takePill = new System.Windows.Forms.Button();
+
+            this.addPill = new System.Windows.Forms.Button();
+            this.removePill = new System.Windows.Forms.Button();
 
             this.SuspendLayout();
             // 
@@ -82,7 +87,7 @@
             this.refreshPillsToTake.Text = "refresh";
             this.refreshPillsToTake.UseVisualStyleBackColor = true;
             //event on button click for the Refresh button
-            this.refreshPillsToTake.Click += new System.EventHandler(RefreshClicked); /*my code*/ 
+            this.refreshPillsToTake.Click += new System.EventHandler(RefreshClicked); 
             // 
             // takePill
             // 
@@ -93,7 +98,30 @@
             this.takePill.Text = "Take Pill";
             this.takePill.UseVisualStyleBackColor = true;
             //event on button click for take pill
-            this.takePill.Click += new System.EventHandler(TakeClicked); /*my code*/ 
+            this.takePill.Click += new System.EventHandler(TakeClicked);
+
+            //
+            // addPill
+            //
+            this.addPill.Location = new System.Drawing.Point(424, 400);
+            this.addPill.Name = "addPill";
+            this.addPill.Size = new System.Drawing.Size(169, 73);
+            this.addPill.TabIndex = 2;
+            this.addPill.Text = "Add Pill";
+            this.addPill.UseVisualStyleBackColor = true;
+            this.addPill.Click += new System.EventHandler(AddPillClicked);
+
+            //
+            // removePill
+            //
+            this.removePill.Location = new System.Drawing.Point(430, 500);
+            this.removePill.Name = "removePill";
+            this.removePill.Size = new System.Drawing.Size(169, 73);
+            this.removePill.TabIndex = 2;
+            this.removePill.Text = "Remove Pill";
+            this.removePill.UseVisualStyleBackColor = true;
+            this.removePill.Click += new System.EventHandler(RemovePillClicked);
+
             //
             // ReminderWindow
             // 
@@ -106,6 +134,8 @@
             this.Controls.Add(this.pillsToTakeLabel);
             this.Controls.Add(this.pillsToTakeListBox);
             this.Controls.Add(this.allPillsListBox);
+            this.Controls.Add(this.addPill);
+            this.Controls.Add(this.removePill);
             this.Font = new System.Drawing.Font("Open Sans", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(7, 8, 7, 8);
             this.Name = "ReminderWindow";
@@ -123,7 +153,8 @@
         private System.Windows.Forms.Label allPillsLabel;
         private System.Windows.Forms.Button refreshPillsToTake;
         private System.Windows.Forms.Button takePill;
-
+        private System.Windows.Forms.Button addPill;
+        private System.Windows.Forms.Button removePill;
     }
 }
 
