@@ -1,5 +1,5 @@
 ﻿/*
- * NOTE: Unless otherwise stated, code is given started code from Tim Correy at https://www.iamtimcorey.com/courses/c-weekly-challenges/lectures/8464895
+ *Starter code from Tim Correy at https://www.iamtimcorey.com/courses/c-weekly-challenges/lectures/8464895
  *
  * David Slusher, 7/13/19
  */
